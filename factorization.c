@@ -43,43 +43,39 @@ void	ft_put_nbr(unsigned int n)
 
 unsigned int	str_to_number(const char *str)
 {
-	unsigned long long answer;
-	unsigned int	i;
+	unsigned long long	answer;
+	unsigned int		i;
 	
 	i = 0;
 	answer = 0;
 	while (str[i])
 	{
 		if(str[i] < '0' || str[i] > '9')
+		{
+			write(1, "error : Please enter positive numbers only.\n", 44);
 			return (0);
+		}
 		answer = answer * 10 + (str[i] - '0');
 		if (answer > 4294967295)
-			return (1);
+		{
+			write(1, "error : The number must be less than 4294967296\n", 49);
+			return (0);
+		}
 		i++;
 	}
+	if (answer == 1)
+		write(1, "error : 1 is an invalid value.\n", 31);
+	else if (answer == 0)
+		write(1, "error : 0 is an invalid value.\n", 31);
 	return (answer == 1 ? 0 : answer);
 }
 
 /*
 **
-** memset
+** sqrt_number
+** 65535 can be expressed in 16 bits.
 **
 */
-
-void	*ft_memset(void *s, int c, size_t n)
-{
-	char		*ptr;
-	size_t		i;
-
-	i = 0;
-	ptr = s;
-	while (i < n)
-	{
-		ptr[i] = (unsigned char)c;
-		i++;
-	}
-	return (s);
-}
 
 unsigned int	sqrt_number(unsigned int n)
 {
@@ -105,6 +101,12 @@ unsigned int	sqrt_number(unsigned int n)
 	}
 	return (base * base < n ? base + 1 : base);
 }
+
+/*
+**
+** find_prime_number
+**
+*/
 
 void	find_prime_number(char *check, unsigned int n_sqrt, unsigned int n)
 {
@@ -141,15 +143,16 @@ void	find_prime_number(char *check, unsigned int n_sqrt, unsigned int n)
 **
 */
 
-#include <stdio.h>
 int		main(int argv, char *argc[])
 {
 	unsigned char	check[65536];
 	unsigned int	number;
+	unsigned int	i;
 
 	if (argv != 2 || !(number = str_to_number(argc[1])))
-	{
-		write(1, "error\n", 6);
+	{	
+		if (argv != 2)
+			write(1, "error : Please enter only one argument.\n", 40);
 		return (-1);
 	}
 	else if (number == 2 || number == 3 || number == 5 || number == 7)
@@ -158,6 +161,8 @@ int		main(int argv, char *argc[])
 		write(1, "\n", 1);
 		return (0);
 	}
-	ft_memset(check, 0, sizeof(check));
+	i = 0;
+	while (i < 65536)
+		check[i++] = 0;
 	find_prime_number(check, sqrt_number(number), number);
 }
