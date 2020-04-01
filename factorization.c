@@ -65,7 +65,7 @@ unsigned int	str_to_number(const char *str)
 	}
 	if (answer == 1)
 		write(1, "error : 1 is an invalid value.\n", 31);
-	else if (answer == 0)
+	else if (answer == 0 && i != 0)
 		write(1, "error : 0 is an invalid value.\n", 31);
 	return (answer == 1 ? 0 : answer);
 }
@@ -153,6 +153,8 @@ int		main(int argv, char *argc[])
 	{	
 		if (argv != 2)
 			write(1, "error : Please enter only one argument.\n", 40);
+		else if (argc[1][0] == '\0')
+			write(1, "error : There are no values.\n", 29);
 		return (-1);
 	}
 	else if (number == 2 || number == 3 || number == 5 || number == 7)
