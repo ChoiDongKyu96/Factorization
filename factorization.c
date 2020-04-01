@@ -58,7 +58,7 @@ unsigned int	str_to_number(const char *str)
 		answer = answer * 10 + (str[i] - '0');
 		if (answer > 4294967295)
 		{
-			write(1, "error : The number must be less than 4294967296\n", 49);
+			write(1, "error : The number must be less than 4294967296\n", 48);
 			return (0);
 		}
 		i++;
